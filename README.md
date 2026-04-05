@@ -56,10 +56,6 @@ The project was realized through a sequence of specific technical directives:
 
 *   **Retry and Fault Handling**: The system is built for graceful degradation; if the Mistral AI provider is down, or URL scraping failed, jobs are safely moved to the `FAILED` state without impacting API availability or data integrity.
 *   **Scraping Stability**: Scraping is assumed to be best-effort. The system prioritizes stability over exhaustive scraping, using a 10s timeout and a 8000-character context limit to prevent blowing up the LLM token budget.
-<<<<<<< HEAD
-*   **Data Consistency**: We assume a "Write-Ahead" approach where the database is the source of truth for job status, while Redis acts strictly as a transport layer.
-=======
 *   **Security & Network Boundary**: This architecture assumes a **Trusted Internal Network** between service communication by simulating it through Docker Network Bridge.
 *   **Polling vs. Push Architecture**: I deliberately chose **Short Polling** for the frontend over WebSockets. This trade-off prioritizes system simplicity for the MVP.
 *   **Data Consistency**: We assume a "Write-Ahead" approach where the database is the source of truth for job status, while Redis acts strictly as a transport layer.
->>>>>>> edda3ac (update: README.MD)
