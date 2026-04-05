@@ -54,4 +54,3 @@ The project was realized through a sequence of specific technical directives:
 *   **Concurrency & Scalability**: The task queue model assumes horizontal scalability. Increasing throughput can be achieved linearly by scaling the worker container count without code changes.
 *   **Scraping Stability**: Scraping is assumed to be best-effort. The system prioritizes stability over exhaustive scraping, using a 10s timeout and a 8000-character context limit to prevent blowing up the LLM token budget.
 *   **Data Consistency**: We assume a "Write-Ahead" approach where the database is the source of truth for job status, while Redis acts strictly as a transport layer.
-#
