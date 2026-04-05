@@ -1,0 +1,42 @@
+# Backend (be-cv-scoring)
+be-cv-scoring/__pycache__/
+be-cv-scoring/*.py[cod]
+be-cv-scoring/*$py.class
+be-cv-scoring/*.so
+be-cv-scoring/.env
+be-cv-scoring/.venv/
+be-cv-scoring/venv/
+be-cv-scoring/*.egg-info/
+be-cv-scoring/dist/
+be-cv-scoring/build/
+be-cv-scoring/.pytest_cache/
+be-cv-scoring/.mypy_cache/
+
+# Frontend (fe-cv-scoring)
+fe-cv-scoring/node_modules
+fe-cv-scoring/.pnp
+fe-cv-scoring/.pnp.*
+fe-cv-scoring/.yarn/*
+!fe-cv-scoring/.yarn/patches
+!fe-cv-scoring/.yarn/plugins
+!fe-cv-scoring/.yarn/releases
+!fe-cv-scoring/.yarn/versions
+fe-cv-scoring/coverage
+fe-cv-scoring/.next/
+fe-cv-scoring/out/
+fe-cv-scoring/build
+fe-cv-scoring/.DS_Store
+fe-cv-scoring/*.pem
+fe-cv-scoring/npm-debug.log*
+fe-cv-scoring/yarn-debug.log*
+fe-cv-scoring/yarn-error.log*
+fe-cv-scoring/.pnpm-debug.log*
+fe-cv-scoring/.env*
+fe-cv-scoring/.vercel
+fe-cv-scoring/*.tsbuildinfo
+fe-cv-scoring/next-env.d.ts
+
+# Root / General
+.DS_Store
+*.log
+.env

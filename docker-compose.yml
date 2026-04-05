@@ -1,0 +1,92 @@
+services:
+  pelgo-api:
+    build:
+      context: ./be-cv-scoring
+      dockerfile: Dockerfile
+    image: pelgo-api:dev
+    container_name: pelgo-api
+    restart: unless-stopped
+    env_file:
+      - ./be-cv-scoring/.env
+    environment:
+      - POSTGRES_PORT=${POSTGRES_PORT_INTERNAL:-5432}
+    ports:
+      - "${SERVICE_PORT:-8000}:${SERVICE_PORT:-8000}"
+    volumes:
+      - ./be-cv-scoring:/code
+    depends_on:
+      pg-pelgo:
+        condition: service_healthy
+    networks:
+      - pelgo_net
+
+  pg-pelgo:
+    image: postgres:16-alpine
+    container_name: ${POSTGRES_HOST:-pg-pelgo}
+    restart: always
+    env_file:
+      - ./be-cv-scoring/.env
+    ports:
+      - "${POSTGRES_PORT_EXTERNAL:-5433}:5432"
+    volumes:
+      - pelgo_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER-postgres} -d ${POSTGRES_DB-pelgo_cv_scoring}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pelgo_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: ${REDIS_HOST:-redis-pelgo}
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - pelgo_net
+
+  worker:
+    image: pelgo-api:dev
+    container_name: pelgo-worker
+    command: ["celery", "-A", "app.worker.celery_app", "worker", "--concurrency=2", "--loglevel=info"]
+    restart: unless-stopped
+    env_file:
+      - ./be-cv-scoring/.env
+    environment:
+      - POSTGRES_PORT=${POSTGRES_PORT_INTERNAL:-5432}
+    depends_on:
+      pelgo-api:
+        condition: service_started
+      pg-pelgo:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - pelgo_net
+
+  frontend:
+    build:
+      context: ./fe-cv-scoring
+      dockerfile: Dockerfile
+    image: fe-cv-scoring:latest
+    container_name: pelgo-frontend
+    restart: unless-stopped
+    env_file:
+      - ./be-cv-scoring/.env
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:${SERVICE_PORT:-8000}/api/v1
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    stdin_open: true
+    tty: true
+    networks:
+      - pelgo_net
+
+volumes:
+  pelgo_pg_data:
+
+networks:
+  pelgo_net:
+    driver: bridge
