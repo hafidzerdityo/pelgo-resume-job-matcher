@@ -16,6 +16,10 @@ An asynchronous system designed to score candidate resumes against job descripti
     ```bash
     docker-compose up --build -d
     ```
+    or if you using newer docker compose version:
+    ```bash
+    docker compose up --build -d
+    ```
     *All services are interconnected via Docker bridge network.*
 4.  **Run Integration Tests**:  
     Verify the full system lifecycle (API -> Redis -> Worker -> DB) by running:
