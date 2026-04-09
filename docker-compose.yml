@@ -12,8 +12,6 @@ services:
       - POSTGRES_PORT=${POSTGRES_PORT_INTERNAL:-5432}
     ports:
       - "${SERVICE_PORT:-8000}:${SERVICE_PORT:-8000}"
-    volumes:
-      - ./be-cv-scoring:/code
     depends_on:
       pg-pelgo:
         condition: service_healthy
