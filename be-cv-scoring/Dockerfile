@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN chmod +x entrypoint.sh
+# Fix Windows line endings and set permissions
+RUN apt-get update && apt-get install -y sed && \
+    sed -i 's/\r$//' entrypoint.sh && \
+    chmod +x entrypoint.sh
 
 CMD ["./entrypoint.sh"]

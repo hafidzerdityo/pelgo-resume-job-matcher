@@ -22,7 +22,7 @@ export function useMatches(candidateId: string | null, page: number = 1, limit: 
     
     try {
       if (!isPolling) setLoading(true);
-      const res = await api.get<MatchListResponse>(`/matches?candidate_id=${candidateId}&limit=${limit}&offset=${offset}`);
+      const res = await api.get<MatchListResponse>(`matches?candidate_id=${candidateId}&limit=${limit}&offset=${offset}`);
       setMatches(res.data.data);
       setPagination(res.data.pagination);
       setError(null);

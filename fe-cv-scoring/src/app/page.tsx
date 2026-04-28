@@ -164,7 +164,7 @@ export default function Home() {
   useEffect(() => {
     async function loadCandidates() {
       try {
-        const res = await api.get("/candidates");
+        const res = await api.get("candidates");
         setCandidates(res.data);
       } catch {
         toast.error("Failed to load candidates");
@@ -215,7 +215,7 @@ export default function Home() {
     toast.info(`Submitting ${jobs.length} jobs for analysis...`);
 
     try {
-      await api.post("/matches", {
+      await api.post("matches", {
         candidate_id: selectedCandidate,
         jobs,
       });
@@ -232,7 +232,7 @@ export default function Home() {
 
   const handleRetry = async (jobId: string) => {
     try {
-      await api.post(`/matches/${jobId}/retry`);
+      await api.post(`matches/${jobId}/retry`);
       toast.success("Job re-queued successfully");
       refetch();
     } catch (err: any) {

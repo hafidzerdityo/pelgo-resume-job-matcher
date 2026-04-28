@@ -73,8 +73,6 @@ services:
     restart: unless-stopped
     env_file:
       - ./fe-cv-scoring/.env
-    environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
     stdin_open: true
